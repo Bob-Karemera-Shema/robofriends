@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
-import Scroll from "../components/Scroll";
 import ErrorBoundary from "../components/ErrorBoundary";
 import './App.css';
 import 'tachyons';
@@ -14,7 +13,7 @@ function App() {
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(Response => Response.json())
             .then(users => setRobots(users));
-    });
+    },[]);
 
     const onSearchChange = (event) => {
         setSearchField(event.target.value);
@@ -29,11 +28,9 @@ function App() {
         <div className="tc">
             <h1 className="f1">RoboFriends</h1>
             <SearchBox searchChange={onSearchChange}/>
-            <Scroll>
-                <ErrorBoundary>
-                    <CardList robots={filteredRobots}/>
-                </ErrorBoundary>
-            </Scroll>
+            <ErrorBoundary>
+                <CardList robots={filteredRobots}/>
+            </ErrorBoundary>
         </div>
     );
 }
