@@ -1,16 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { legacy_createStore as createStore, applyMiddleware } from 'redux';
-import { createLogger } from 'redux-logger';
-// import thunkMiddleware from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
+import logger from 'redux-logger';
+import { thunk } from 'redux-thunk';
 import './index.css';
 import App from './containers/App';
 import reportWebVitals from './reportWebVitals';
 import { searchRobots } from './reducers';
 
-const logger = createLogger();
-const store = createStore(searchRobots, applyMiddleware(/*thunkMiddleware, */logger));
+const store = configureStore({
+  reducer: searchRobots,
+  middleware: (getDefaultMiddleware) => [
+    ...getDefaultMiddleware(),
+    thunk,
+    logger
+  ]
+});
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
